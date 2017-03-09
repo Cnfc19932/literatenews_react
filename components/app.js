@@ -6,8 +6,8 @@ let App = React.createClass({
 	render: function() {
     	return ( 
     			<div id = "page">
-    				<div className = "container">
-    					<Header />
+    				<div className = "container"> 
+    					<Header /> 
     					<Content />
     				</div>
     			</div>
