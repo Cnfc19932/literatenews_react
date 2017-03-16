@@ -4,8 +4,9 @@ import {Header_main} from '../components/header/header_main'
 import {Search_panel} from '../components/header/search_panel'
 
 let Header = React.createClass({
-	render: () => (
-			<div className = "header-container">
+	render(){
+
+			return (<div className = "header-container">
 				<header className = "header"> 
 					<Header_main />
 				</header>
@@ -14,8 +15,8 @@ let Header = React.createClass({
 
 				<Menu_lavel_2 />
 
-			</div>
-	)
+			</div>)
+	}
 });
 
 export {Header}

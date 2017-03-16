@@ -4,7 +4,7 @@ let Item = React.createClass({
 
 	render : function() {
 		var style = {
-			'background-image' : 'url('+this.props.i.img+')'
+			'backgroundImage' : 'url('+this.props.i.img+')'
 		};
 		return (
 			<item>
