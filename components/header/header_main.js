@@ -22,7 +22,6 @@ class Header_main extends React.Component{
 	}
  	shouldComponentUpdate(nextProps,nextState){
  		var needUpdate = (nextState['navigation-panel'].display != this.state['navigation-panel'].display) || (nextState['search-panel'].display != this.state['search-panel'].display);
- 		//console.log(needUpdate);
 		return needUpdate;
 	}
 	render(){

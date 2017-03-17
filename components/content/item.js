@@ -2,7 +2,7 @@ import React from 'react'
 
 let Item = React.createClass({
 	shouldComponentUpdate: function(nextProps,nextState){
-		return false;
+		return (JSON.stringify(this.props.i) != JSON.stringify(nextProps.i));
 	},
 	render : function() {
 		var style = {

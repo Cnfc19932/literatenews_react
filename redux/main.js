@@ -2,6 +2,28 @@ import { createStore } from 'redux'
 
 const storeApp = (state, action) => {
   switch (action.type) {
+  	case 'CHANGE_SEARCH_LINE':
+		/* Четкий поиск (Не в смысле что семок просит)*/
+		function searchFilter(item){
+			var str = item.text + ' ' +item.title;
+			var sl = action.text.toLowerCase() || '';
+			return (str.toLowerCase().indexOf(sl) > -1);
+		};
+		var t = state.todo.itemsAll;
+		var tt = state.todo.itemsAll.filter(searchFilter);
+
+  		var new_state = {
+  			'logic' : {
+  				'search-text' : action.text || ''
+  			},
+  			'todo' : {
+				'items' : tt,
+				'itemsAll' : t
+			}
+  		};
+
+	    return Object.assign ({}, state, new_state);
+
   	case 'CLICK_HEADER_MENU':
   		var display = {
   			'display' : {
@@ -14,6 +36,10 @@ const storeApp = (state, action) => {
   			}
   		};
 	    return Object.assign ({}, state, display);
+
+  	case 'START':
+	    return Object.assign ({}, state, {'todo' : {'items' : state.todo.itemsAll , 'itemsAll' : state.todo.itemsAll}});
+
 	case 'CLICK_SEARCH_PANEL':
   		var display = {
   			'display' : {
@@ -34,8 +60,9 @@ const storeApp = (state, action) => {
 							'title' : 'Погибший в Сирии россиянин Слышкин служил в «группе Вагнера»11',
 							'text' : 'Погибший в Сирии 23-летний Иван Слышкин служил в частной воен11ной компании Вагнера, рассказали два источника РБК. Слышкин тренировал сирийских военных и был убит во время разведывательной операции'
 						}					
-					]
-				}
+					],
+			'itemsAll' : state.todo.itemsAll	
+			}
 			});
 
     default:
@@ -52,8 +79,11 @@ const defoultStorage = {
 			'display' : false
 		}
 	},
+	'logic':{
+		'search-text' : 'test'
+	},
 	'todo' : {
-		'items' : [
+		'itemsAll' : [
 					{
 						'img' : 'http://s0.rbk.ru/v6_top_pics/resized/240x150_crop/media/img/6/72/754888022922726.jpg',
 						'title' : 'Погибший в Сирии россиянин Слышкин служил в «группе Вагнера»',

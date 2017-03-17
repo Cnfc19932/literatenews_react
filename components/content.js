@@ -9,6 +9,11 @@ class Content extends React.Component{
 		this.updateState = this.updateState.bind(this);
 		this.props.store.subscribe(this.updateState);
 	} 
+	componentWillMount(){
+		this.props.store.dispatch({
+		  type: 'START'
+		});
+	}
 	updateState(){	
 		this.setState((prevState, props) => {
 			if ((props.store.getState().todo) && (prevState != props.store.getState().todo))
@@ -21,9 +26,7 @@ class Content extends React.Component{
 		return (JSON.stringify(nextState) != JSON.stringify(this.state));
 	}
 	getListItems(){
-		return this.state.items.map(function(value,key){
-			return (<Item i={value} key={key}/>);
-		});
+		return this.state.items ? this.state.items.map(function(value,key){ return (<Item i={value} key={key}/>); }) : '';
 	}
 
 	render(){
