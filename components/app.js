@@ -9,7 +9,7 @@ let App = React.createClass({
     	return ( 
     			<div id = "page">
     				<div className = "container"> 
-    					<Header /> 
+    					<Header store={this.props.store}/> 
     					<Content store={this.props.store}/>
     				</div>
     			</div>

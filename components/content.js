@@ -17,12 +17,15 @@ class Content extends React.Component{
 			}
 		});
 	}
+ 	shouldComponentUpdate(nextProps,nextState){
+		return (JSON.stringify(nextState) != JSON.stringify(this.state));
+	}
 	getListItems(){
 		return this.state.items.map(function(value,key){
 			return (<Item i={value} key={key}/>);
 		});
 	}
- 
+
 	render(){
 
 		return  (

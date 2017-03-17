@@ -1,11 +1,14 @@
 import React from 'react'
 
 let Item = React.createClass({
-
+	shouldComponentUpdate: function(nextProps,nextState){
+		return false;
+	},
 	render : function() {
 		var style = {
 			'backgroundImage' : 'url('+this.props.i.img+')'
 		};
+
 		return (
 			<item>
 				<div className = "item__img" style={style}></div>

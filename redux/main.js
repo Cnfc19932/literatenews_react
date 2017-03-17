@@ -2,9 +2,31 @@ import { createStore } from 'redux'
 
 const storeApp = (state, action) => {
   switch (action.type) {
+  	case 'CLICK_HEADER_MENU':
+  		var display = {
+  			'display' : {
+		 		'search-panel' : {
+					'display' : false
+				},
+				'navigation-panel' : {
+					'display' : !state.display['navigation-panel'].display
+				} 				
+  			}
+  		};
+	    return Object.assign ({}, state, display);
+	case 'CLICK_SEARCH_PANEL':
+  		var display = {
+  			'display' : {
+		 		'search-panel' : {
+					'display' : !state.display['search-panel'].display
+				},
+				'navigation-panel' : {
+					'display' : false
+				} 				
+  			}
+  		};	
+	    return Object.assign ({}, state, display);
     case 'SHOW_MORE': 
-    	console.log('Редюсер');
-    		console.log(state);
 	      return Object.assign ({}, state, {	'todo' : {
 			'items' : [
 						{
@@ -15,6 +37,7 @@ const storeApp = (state, action) => {
 					]
 				}
 			});
+
     default:
       return state
   }
@@ -22,7 +45,12 @@ const storeApp = (state, action) => {
 
 const defoultStorage = {
 	'display':{
-		
+		'search-panel' : {
+			'display' : false
+		},
+		'navigation-panel' : {
+			'display' : false
+		}
 	},
 	'todo' : {
 		'items' : [
