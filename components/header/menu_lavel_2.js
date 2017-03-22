@@ -16,12 +16,12 @@ class Menu_lavel_2 extends React.Component{
 	updateState(){	
 		this.setState((prevState, props) => {return props.store.getState();});
 	}
-	toggleSeachButton(index){
+	toggleSeachButton(index,name){
 		//console.log(index);
-		this.props.store.dispatch({type: 'CLICK_SEARCH_SOURCE_BUTTON',index: index});
+		this.props.store.dispatch({type: 'CLICK_SEARCH_SOURCE_BUTTON',index: index,name:name});
 	}
 	source(){
-		return this.state.sources.length ? this.state.sources.map((item,index) => <li onClick = {() => this.toggleSeachButton(index)} className = {item.active} key={index}>{item.name}</li>) : '';
+		return this.state.sources.length ? this.state.sources.map((item,index) => <li onClick = {() => this.toggleSeachButton(index,item.name)} className = {item.active} key={index}>{item.name}</li>) : '';
 	}
 	render(){
 		

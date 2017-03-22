@@ -4,7 +4,14 @@ import { defoultStorage } from './state/defoultState'
 const storeApp = (state, action) => {
   switch (action.type) {
   	case 'CLICK_SEARCH_SOURCE_BUTTON':
-  		var sources = {'sources' : []}
+  		var sources = {'sources' : []};
+
+ 		function searchFilter(item){
+			var str = item.source;
+			var sl = action.name.toLowerCase() || '';
+			return (str.toLowerCase().indexOf(sl) > -1);
+		};
+
   		function once_active_button(buttons,index_active){
   			return buttons.map(function(button,index){ 
   				if (index_active != index) {
@@ -19,13 +26,15 @@ const storeApp = (state, action) => {
   			});
   		}
   		if (action.index === 0){
-  			return Object.assign ({}, state, {'sources' : once_active_button(state.sources,action.index)});
+  			if (state.sources[0].active === 'active')
+  				return state;
+  			else
+  				return Object.assign ({}, state, {'todo' : {'items':state.todo.itemsAll,'itemsAll':state.todo.itemsAll}, 'sources' : once_active_button(state.sources,action.index)});
   		}
   		if ((typeof action.index === "number") && (action.index > 0) && (action.index < state.sources.length)){
-  			console.log('2');
-  			return Object.assign ({}, state, {'sources' : once_active_button(state.sources,action.index)});
+
+  			return Object.assign ({}, state, {'todo' : {'items':state.todo.itemsAll.filter(searchFilter),'itemsAll':state.todo.itemsAll}, 'sources' : once_active_button(state.sources,action.index)});
   		}
-  		console.log('3');
   		return state
   		
   	case 'CHANGE_SEARCH_LINE':
