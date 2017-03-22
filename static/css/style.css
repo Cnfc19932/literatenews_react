@@ -20,7 +20,6 @@ html {
   font-size: 1.5625vw;
   cursor: default;
   min-width: 320px;
-  max-width: 640px;
   width: 100%;
 }
 a {
@@ -46,7 +45,6 @@ div#page {
           justify-content: center;
 }
 div#page > div.container {
-  max-width: 640px;
   width: 100%;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -97,9 +95,16 @@ div#page > div.container {
   z-index: 1;
 }
 .menu-level--2 {
-  overflow: hidden;
+  /* хром, сафари */
+  /* ie 10+ */
+  -ms-overflow-style: none;
+  /* фф (свойство больше не работает, других способов тоже нет)*/
+  overflow: -moz-scrollbars-none;
   font-size: 2.6rem;
   padding: 1rem 0;
+}
+.menu-level--2::-webkit-scrollbar {
+  width: 0;
 }
 .menu-level--2 > ul {
   font-family: 'Yanone Kaffeesatz', sans-serif;

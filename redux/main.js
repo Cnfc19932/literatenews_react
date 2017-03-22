@@ -1,7 +1,33 @@
 import { createStore } from 'redux'
+import { defoultStorage } from './state/defoultState'
 
 const storeApp = (state, action) => {
   switch (action.type) {
+  	case 'CLICK_SEARCH_SOURCE_BUTTON':
+  		var sources = {'sources' : []}
+  		function once_active_button(buttons,index_active){
+  			return buttons.map(function(button,index){ 
+  				if (index_active != index) {
+  					return {'active' : false, 'name': button.name}; 
+  				}
+  				else {
+  					if (button.active == false) {
+  						return {'active' : 'active', 'name': button.name};
+  					}
+  					else  return {'active' : false, 'name': button.name};
+  				} 
+  			});
+  		}
+  		if (action.index === 0){
+  			return Object.assign ({}, state, {'sources' : once_active_button(state.sources,action.index)});
+  		}
+  		if ((typeof action.index === "number") && (action.index > 0) && (action.index < state.sources.length)){
+  			console.log('2');
+  			return Object.assign ({}, state, {'sources' : once_active_button(state.sources,action.index)});
+  		}
+  		console.log('3');
+  		return state
+  		
   	case 'CHANGE_SEARCH_LINE':
 		/* Четкий поиск (Не в смысле что семок просит)*/
 		function searchFilter(item){
@@ -38,7 +64,14 @@ const storeApp = (state, action) => {
 	    return Object.assign ({}, state, display);
 
   	case 'START':
-	    return Object.assign ({}, state, {'todo' : {'items' : state.todo.itemsAll , 'itemsAll' : state.todo.itemsAll}});
+  		var paging = {
+  			'page' : {
+  				'start' : 0,
+  				'count' : 6,
+  				'end' : 6
+  			}
+  		};
+	    return Object.assign ({}, state, {paging, 'todo' : {'items' : state.todo.itemsAll.slice(paging.page.start,paging.page.count) , 'itemsAll' : state.todo.itemsAll}});
 
 	case 'CLICK_SEARCH_PANEL':
   		var display = {
@@ -53,79 +86,24 @@ const storeApp = (state, action) => {
   		};	
 	    return Object.assign ({}, state, display);
     case 'SHOW_MORE': 
-	      return Object.assign ({}, state, {	'todo' : {
-			'items' : [
-						{
-							'img' : 'http://s0.rbk.ru/v6_top_pics/resized/240x150_crop/media/img/6/72/754888022922726.jpg',
-							'title' : 'Погибший в Сирии россиянин Слышкин служил в «группе Вагнера»11',
-							'text' : 'Погибший в Сирии 23-летний Иван Слышкин служил в частной воен11ной компании Вагнера, рассказали два источника РБК. Слышкин тренировал сирийских военных и был убит во время разведывательной операции'
-						}					
-					],
-			'itemsAll' : state.todo.itemsAll	
-			}
+    		var max = parseInt(state.todo.itemsAll.length);
+	   		var paging = {
+	  			'page' : {
+	  				'start' : ((state.paging.page.start + state.paging.page.count) >= max) ?  ((max - state.paging.page.count < 0 ) ? 0 : state.paging.page.start) : state.paging.page.start + state.paging.page.count ,
+	  				'end' : (state.paging.page.end + state.paging.page.count) > max ? (max + 1) :  state.paging.page.end + state.paging.page.count,
+	  				'count' : state.paging.page.count
+	  			}
+	  		};   	  
+    	  	let tmp = state.todo.itemsAll.slice(paging.page.start,paging.page.end);
+	     	return Object.assign ({}, state, {paging,	'todo' : {
+				'items' : tmp,
+				'itemsAll' : state.todo.itemsAll
+				}
 			});
 
     default:
       return state
   }
-}
-
-const defoultStorage = {
-	'display':{
-		'search-panel' : {
-			'display' : false
-		},
-		'navigation-panel' : {
-			'display' : false
-		}
-	},
-	'logic':{
-		'search-text' : 'test'
-	},
-	'todo' : {
-		'itemsAll' : [
-					{
-						'img' : 'http://s0.rbk.ru/v6_top_pics/resized/240x150_crop/media/img/6/72/754888022922726.jpg',
-						'title' : 'Погибший в Сирии россиянин Слышкин служил в «группе Вагнера»',
-						'text' : 'Погибший в Сирии 23-летний Иван Слышкин служил в частной военной компании Вагнера, рассказали два источника РБК. Слышкин тренировал сирийских военных и был убит во время разведывательной операции'
-					},
-					{
-						'img' : 'http://s0.rbk.ru/v6_top_pics/resized/240x150_crop/media/img/4/19/754888196097194.jpg',
-						'title' : 'Трамп подписал новый указ об ограничении иммиграции в США',
-						'text' : 'Президент США Дональд Трамп подписал новый указ о мигрантах, который запрещает въезд в страну гражданам шести мусульманских стран: Сирии, Ирана, Судана, Ливии, Сомали и Йемена. Действие постановления не распространяется на тех, кто уже имеет американские визы'
-					},
-					{
-						'img' : 'http://s0.rbk.ru/v6_top_pics/resized/240x150_crop/media/img/3/90/754888199788903.jpg',
-						'title' : 'Москва ускорит переселение жильцов из подготовленных к сносу пятиэтажек',
-						'text' : 'Московские власти работают над тем, чтобы ускорить процесс получения земельных участков и расселения жильцов для сноса пятиэтажек. Для этого могут потребоваться изменения в законодательстве'
-					},
-					{
-						'img' : 'http://s0.rbk.ru/v6_top_pics/resized/240x150_crop/media/img/7/39/754888185552397.jpg',
-						'title' : '«Дочка» РЖД предложила ограничить продажу билетов курильщикам-нарушителям',
-						'text' : '«Дочка» РЖД, Федеральная пассажирская компания, обратится в Минтранс с просьбой отказывать в перевозке пассажирам, привлеченным к административной ответственности за курение в поездах дальнего следования. Об этом сообщил сотрудник пресс-службы ФПК'
-					},
-					{
-						'img' : 'http://s0.rbk.ru/v6_top_pics/resized/240x150_crop/media/img/3/16/754888194003163.jpg',
-						'title' : 'В Москве за год подешевел интернет',
-						'text' : 'В 2016 году стоимость доступа в интернет для москвичей снизилась на 7–14%. По мнению экспертов, это объясняется высокой ценовой конкуренцией и большой распространенностью услуги. Дальнейшего снижения тарифов они не ждут'
-					},
-					{
-						'img' : 'http://s0.rbk.ru/v6_top_pics/resized/240x150_crop/media/img/4/89/754888163808894.jpg',
-						'title' : 'Минобороны подтвердило гибель российского разведчика в Сирии',
-						'text' : 'Минобороны России подтвердило гибель разведчика Артема Горбунова в Сирии при выполнении операции по освобождению Пальмиры. Командование представило военного к госнаграде посмертно. Ранее о смерти военнослужащего рассказала РБК его вдова'
-					},
-					{
-						'img' : 'http://s0.rbk.ru/v6_top_pics/resized/240x150_crop/media/img/8/68/754888176123688.jpg',
-						'title' : 'Еврокомиссия одобрила строительство «Росатомом» АЭС в Венгрии',
-						'text' : 'Европейская комиссия по итогам расследования одобрила предоставление господдержки проекту строительства АЭС «Пакш-2» в Венгрии, говорится в пресс-релизе европейского регулятора.'
-					},
-					{
-						'img' : 'http://s0.rbk.ru/v6_top_pics/resized/240x150_crop/media/img/5/09/754888155230095.jpg',
-						'title' : 'От трех губернаторов потребовали погасить долги по госконтрактам',
-						'text' : 'Генпрокуратура выявила нарушения при исполнении многомиллионных госконтрактов в трех регионах Уральского федерального округа. По данным надзорного ведомства, госзаказчики удерживают крупные просроченные задолженности перед предпринимателями Свердловской, Челябинской и Курганской областей'
-					}						
-				]
-	}
 }
 
 
