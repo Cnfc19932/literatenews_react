@@ -12,6 +12,7 @@ let store = storeApp_;
 		<div>
 			<Head>
 		    	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0" />
+          <meta name="yandex-verification" content="1ea527410dcd243f" />
   				<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
   				<link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet" />
   				<link href="https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz" rel="stylesheet" />
