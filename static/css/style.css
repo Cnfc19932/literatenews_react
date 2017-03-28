@@ -95,11 +95,7 @@ div#page > div.container {
   z-index: 1;
 }
 .menu-level--2 {
-  /* хром, сафари */
-  /* ie 10+ */
-  -ms-overflow-style: none;
-  /* фф (свойство больше не работает, других способов тоже нет)*/
-  overflow: -moz-scrollbars-none;
+
   font-size: 2.6rem;
   padding: 1rem 0;
 }
@@ -109,6 +105,12 @@ div#page > div.container {
 .menu-level--2 > ul {
   font-family: 'Yanone Kaffeesatz', sans-serif;
   margin: 0;
+  /* хром, сафари */
+  /* ie 10+ */
+  -ms-overflow-style: none;
+  /* фф (свойство больше не работает, других способов тоже нет)*/
+  overflow: auto;
+  overflow: -moz-scrollbars-none;
   padding: 1rem 0 0 0;
   width: 100%;
   display: -webkit-box;

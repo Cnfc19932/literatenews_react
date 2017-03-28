@@ -2,7 +2,10 @@ import { createStore } from 'redux'
 import { defoultStorage } from './state/defoultState'
 
 const storeApp = (state, action) => {
+  //console.log(action.type);
   switch (action.type) {
+    case 'INIT':
+      return Object.assign ({}, state, {'todo' : {'itemsAll':  action.data || []}}) || state;
   	case 'CLICK_SEARCH_SOURCE_BUTTON':
   		var sources = {'sources' : []};
 
@@ -13,16 +16,16 @@ const storeApp = (state, action) => {
 		};
 
   		function once_active_button(buttons,index_active){
-  			return buttons.map(function(button,index){ 
+  			return buttons.map(function(button,index){
   				if (index_active != index) {
-  					return {'active' : false, 'name': button.name}; 
+  					return {'active' : false, 'name': button.name};
   				}
   				else {
   					if (button.active == false) {
   						return {'active' : 'active', 'name': button.name};
   					}
   					else  return {'active' : false, 'name': button.name};
-  				} 
+  				}
   			});
   		}
   		if (action.index === 0){
@@ -36,7 +39,7 @@ const storeApp = (state, action) => {
   			return Object.assign ({}, state, {'todo' : {'items':state.todo.itemsAll.filter(searchFilter),'itemsAll':state.todo.itemsAll}, 'sources' : once_active_button(state.sources,action.index)});
   		}
   		return state
-  		
+
   	case 'CHANGE_SEARCH_LINE':
 		/* Четкий поиск (Не в смысле что семок просит)*/
 		function searchFilter(item){
@@ -67,7 +70,7 @@ const storeApp = (state, action) => {
 				},
 				'navigation-panel' : {
 					'display' : !state.display['navigation-panel'].display
-				} 				
+				}
   			}
   		};
 	    return Object.assign ({}, state, display);
@@ -80,7 +83,8 @@ const storeApp = (state, action) => {
   				'end' : 6
   			}
   		};
-	    return Object.assign ({}, state, {paging, 'todo' : {'items' : state.todo.itemsAll.slice(paging.page.start,paging.page.count) , 'itemsAll' : state.todo.itemsAll}});
+    //  console.log(state.todo.itemsAll);
+	    return Object.assign ({}, state, {paging, 'todo' : {'items' : state.todo.itemsAll.slice(paging.page.start,paging.page.count), 'itemsAll' : state.todo.itemsAll}});
 
 	case 'CLICK_SEARCH_PANEL':
   		var display = {
@@ -90,11 +94,11 @@ const storeApp = (state, action) => {
 				},
 				'navigation-panel' : {
 					'display' : false
-				} 				
+				}
   			}
-  		};	
+  		};
 	    return Object.assign ({}, state, display);
-    case 'SHOW_MORE': 
+    case 'SHOW_MORE':
     		var max = parseInt(state.todo.itemsAll.length);
 	   		var paging = {
 	  			'page' : {
@@ -102,7 +106,7 @@ const storeApp = (state, action) => {
 	  				'end' : (state.paging.page.end + state.paging.page.count) > max ? (max + 1) :  state.paging.page.end + state.paging.page.count,
 	  				'count' : state.paging.page.count
 	  			}
-	  		};   	  
+	  		};
     	  	let tmp = state.todo.itemsAll.slice(paging.page.start,paging.page.end);
 	     	return Object.assign ({}, state, {paging,	'todo' : {
 				'items' : tmp,

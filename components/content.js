@@ -8,16 +8,16 @@ class Content extends React.Component{
 		this.state = this.props.store.getState().todo;
 		this.updateState = this.updateState.bind(this);
 		this.props.store.subscribe(this.updateState);
-	} 
+	}
 	componentWillMount(){
 		this.props.store.dispatch({
 		  type: 'START'
 		});
 	}
-	updateState(){	
+	updateState(){
 		this.setState((prevState, props) => {
 			if ((props.store.getState().todo) && (prevState != props.store.getState().todo))
-		  	{	
+		  	{
 		  		return props.store.getState().todo;
 			}
 		});
@@ -26,6 +26,7 @@ class Content extends React.Component{
 		return (JSON.stringify(nextState) != JSON.stringify(this.state));
 	}
 	getListItems(){
+	//	console.log(4);
 		return this.state.items ? this.state.items.map(function(value,key){ return (<Item i={value} key={key}/>); }) : '';
 	}
 
@@ -42,4 +43,4 @@ class Content extends React.Component{
 
 
 
-export {Content} 
+export {Content}
