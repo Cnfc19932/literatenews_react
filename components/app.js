@@ -15,11 +15,11 @@ class App extends React.Component{
 		this.setState((prevState, props) => {return props.store.getState();});
 	}
 	componentDidMount(){
-		const api = 'http://sgorovoy.me:8080/theratenews/lite/main/';
+		const api = 'http://news.lists.pw:8080/theratenews/lite/main/';
 		var store = this.props.store;
 
 		var xhr = new XMLHttpRequest();
-		xhr.open('GET',api, true);
+		xhr.open('GET',api, true); 
 		xhr.send();
 
 		function c(xhr,callback){
